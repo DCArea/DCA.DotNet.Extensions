@@ -1,0 +1,24 @@
+<Project>
+
+  <PropertyGroup>
+    <DefaultTargetFramework>net6.0</DefaultTargetFramework>
+    <VersionPrefix>0.0.1</VersionPrefix>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <!-- framework versions -->
+  <PropertyGroup>
+  </PropertyGroup>
+
+  <!-- library versions -->
+  <PropertyGroup>
+    <OpenTelemetryNonCoreVersion>1.0.0-rc9.3</OpenTelemetryNonCoreVersion>
+  </PropertyGroup>
+
+</Project>
