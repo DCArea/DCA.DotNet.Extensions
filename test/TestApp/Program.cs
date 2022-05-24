@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.AddEnrichedJsonConsole();
 
 var app = builder.Build();
-
 
 // named endpoint
 app.MapGet("/my-items/{name}", (string name) =>
