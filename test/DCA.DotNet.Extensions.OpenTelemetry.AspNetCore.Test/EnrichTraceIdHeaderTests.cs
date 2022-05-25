@@ -14,12 +14,12 @@ using Xunit;
 namespace DCA.DotNet.Extensions.OpenTelemetry.AspNetCore.Test;
 
 [Collection("OpenTelemetry")]
-public class EnrichRouteNameTests : IDisposable
+public class EnrichTraceIdHeaderTests: IDisposable
 {
     private TracerProvider? _traceProvider;
 
     [Fact]
-    public async Task EnrichNamedEndpoint()
+    public async Task EnrichTraceIdHeader()
     {
         var activityProcessor = new Mock<BaseProcessor<Activity>>();
         void ConfigureTestServices(IServiceCollection services)
@@ -45,38 +45,7 @@ public class EnrichRouteNameTests : IDisposable
         var activity = activityProcessor.Invocations.FirstOrDefault(invo => invo.Method.Name == "OnEnd")?.Arguments[0] as Activity;
         Assert.NotNull(activity);
 
-        Assert.Equal("GetMyItem", activity!.DisplayName);
-    }
-
-
-    [Fact]
-    public async Task EnrichUnnamedEndpoint()
-    {
-        var activityProcessor = new Mock<BaseProcessor<Activity>>();
-        void ConfigureTestServices(IServiceCollection services)
-        {
-            Sdk.CreateTracerProviderBuilder()
-                .AddEncrichedAspNetCoreInstrumentation()
-                // .AddAspNetCoreInstrumentation()
-                .AddProcessor(activityProcessor.Object)
-                .Build();
-        }
-
-        using var client = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(ConfigureTestServices);
-            })
-            .CreateClient();
-
-        var response = await client.GetAsync("/my-items2/abc");
-        response.EnsureSuccessStatusCode();
-        WaitForProcessorInvocations(activityProcessor, 3);
-
-        var activity = activityProcessor.Invocations.FirstOrDefault(invo => invo.Method.Name == "OnEnd")?.Arguments[0] as Activity;
-        Assert.NotNull(activity);
-
-        Assert.Equal("HTTP: GET /my-items2/{name}", activity!.DisplayName);
+        Assert.Equal(activity!.TraceId.ToString(), response.Headers.GetValues("trace-id").Single());
     }
 
 

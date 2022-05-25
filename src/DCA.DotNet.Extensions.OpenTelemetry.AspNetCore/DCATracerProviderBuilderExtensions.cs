@@ -16,6 +16,7 @@ public static class DCATracerProviderBuilderExtensions
             options.Enrich = (activity, eventName, data) =>
             {
                 AspNetCoreInstrumentationEnrichments.EnrichRouteName.Invoke(activity, eventName, data);
+                AspNetCoreInstrumentationEnrichments.AttachTraceContextInHeader.Invoke(activity, eventName, data);
                 configuredEnrich?.Invoke(activity, eventName, data);
             };
 

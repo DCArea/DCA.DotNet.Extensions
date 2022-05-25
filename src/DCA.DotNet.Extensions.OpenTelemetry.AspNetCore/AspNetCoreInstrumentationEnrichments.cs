@@ -17,11 +17,7 @@ public static class AspNetCoreInstrumentationEnrichments
     {
         // reference:  https://github.com/open-telemetry/opentelemetry-dotnet/issues/2986
         HttpContext context;
-        if (data is HttpRequest request)
-        {
-            context = request.HttpContext;
-        }
-        else if (data is HttpResponse response)
+        if (data is HttpResponse response)
         {
             context = response.HttpContext;
         }
@@ -43,12 +39,24 @@ public static class AspNetCoreInstrumentationEnrichments
             }
             else
             {
-                activity.DisplayName = $"{context.Request.Protocol.ToUpperInvariant()}: {context.Request.Method.ToUpperInvariant()} {endpoint.RoutePattern?.RawText?.ToLowerInvariant()}";
+                activity.DisplayName = $"{context.Request.Scheme.ToUpperInvariant()}: {context.Request.Method.ToUpperInvariant()} {endpoint.RoutePattern?.RawText?.ToLowerInvariant()}";
             }
         }
         else
         {
-            activity.DisplayName = $"{context.Request.Protocol.ToUpperInvariant()}: {context.Request.Method.ToUpperInvariant()}";
+            activity.DisplayName = $"{context.Request.Scheme.ToUpperInvariant()} {context.Request.Method.ToUpperInvariant()}";
+        }
+    };
+
+    public static Action<Activity, string, object> AttachTraceContextInHeader { get; } = (activity, eventName, data) =>
+    {
+        if (data is HttpRequest request)
+        {
+            request.HttpContext.Response.Headers["trace-id"] = activity.TraceId.ToHexString();
+        }
+        else
+        {
+            return;
         }
     };
 }
