@@ -1,13 +1,13 @@
 <Project>
 
   <PropertyGroup>
-    <DefaultTargetFramework>net6.0</DefaultTargetFramework>
     <VersionPrefix>0.0.1</VersionPrefix>
     <VersionSuffix>alpha3.0</VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TargetFramework>net6.0</TargetFramework>
+    <!-- <TreatWarningsAsErrors>true</TreatWarningsAsErrors> -->
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
     <DebugType>portable</DebugType>

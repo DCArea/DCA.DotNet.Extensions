@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using System.Threading;
 using DCA.DotNet.Extensions.BackgroundTask;
 
 namespace BackgroundTaskPerfTest;

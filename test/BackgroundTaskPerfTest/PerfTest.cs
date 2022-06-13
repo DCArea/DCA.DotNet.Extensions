@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using DCA.DotNet.Extensions.BackgroundTask;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

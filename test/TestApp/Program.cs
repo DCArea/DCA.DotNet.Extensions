@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddEnrichedJsonConsole();
 
@@ -18,6 +21,8 @@ app.MapGet("/my-items2/{name}", (string name) =>
 
 app.Run();
 
-record MyItem(string name);
 
+#pragma warning disable CA1050
 public partial class Program { }
+
+record MyItem(string name);
