@@ -15,7 +15,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore /p:ContinuousIntegrationBuild=true
       - name: Pack
         run: dotnet pack --configuration Release --no-build -o nupkgs
       - name: NuGet Push

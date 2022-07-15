@@ -26,3 +26,52 @@ Support namespaced actors (formatted with `{namespace}:{actorType}`).
 *related issues:*
 * *[dapr#4711](https://github.com/dapr/dapr/issues/4711)*
 * *[dapr#3167](https://github.com/dapr/dapr/issues/3167)*
+
+## DCA.DotNet.Extensions.CloudEvents
+
+Publish/Subscribe CloudEvents via Kafka, inspired by dapr pubsub component.
+
+Configure pubsub:
+```csharp
+services.AddCloudEvents(defaultPubSubName: "kafka", defaultTopic: "my-topic")
+    .Load(typeof(OrderCancelled).Assembly)
+    .AddKafkaPubSub("kafka", options =>
+    {
+        options.ProducerConfig = new ProducerConfig
+        {
+            BootstrapServers = broker,
+        };
+    }, options =>
+    {
+        options.ConsumerConfig = new ConsumerConfig
+        {
+            BootstrapServers = broker,
+            GroupId = consumerGroup,
+        };
+    });
+```
+
+Define cloud event:
+```csharp
+[CloudEvent]
+public record OrderCancelled(Guid OrderId, string Reason);
+```
+
+Publish cloud event:
+```csharp
+await pubsub.PublishAsync(new OrderCancelled(order.Id, reason));
+```
+
+Subscribe and process cloud event:
+``` csharp
+public class OrderCancelledHandler : ICloudEventHandler<OrderCancelled>
+{
+    public async Task HandleAsync(CloudEvent<PingEvent> cloudEvent, CancellationToken token)
+    {
+        // ...
+    }
+}
+```
+
+
+
