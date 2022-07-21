@@ -12,6 +12,7 @@
     <Nullable>enable</Nullable>
     <DebugType>portable</DebugType>
     <ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
+    <NoWarn>$(NoWarn),SYSLIB1006</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>

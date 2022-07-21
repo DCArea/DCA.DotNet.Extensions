@@ -31,11 +31,11 @@ public class MeasurementPerf
         s_listener2.Start();
     }
 
-    private static int m;
+    private static int s_m;
 
     private static Measurement<int> ObserveValueWithTags()
     {
-        m++;
+        s_m++;
         return new Measurement<int>(1,
             new KeyValuePair<string, object?>("t1", "v1"),
             new KeyValuePair<string, object?>("t2", "v2"),
@@ -51,16 +51,16 @@ public class MeasurementPerf
     {
         for (int i = 0; i < 500; i++)
             s_listener1.RecordObservableInstruments();
-        return m;
+        return s_m;
     }
 
 
-    private static readonly ObservableGauge<int> s_oGauge2 = s_meter.CreateObservableGauge<int>("ObservableCounter", () => m++);
+    private static readonly ObservableGauge<int> s_oGauge2 = s_meter.CreateObservableGauge<int>("ObservableCounter", () => s_m++);
     [Benchmark]
     public int ObserveWithOutTags()
     {
         for (int i = 0; i < 500; i++)
             s_listener2.RecordObservableInstruments();
-        return m;
+        return s_m;
     }
 }

@@ -2,5 +2,5 @@
 using BenchmarkDotNet.Running;
 using MetricBenchmarks;
 
-var summary = BenchmarkRunner.Run<MeasurementPerf>();
+var _ = BenchmarkRunner.Run<MeasurementPerf>();
 

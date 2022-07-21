@@ -54,6 +54,8 @@ namespace Microsoft.Extensions.Logging.Console
                     writer.WriteString(nameof(logEntry.Category), category);
                     writer.WriteString("Message", message);
 
+                    WriteScopeInformation(writer, scopeProvider);
+
                     if (exception != null)
                     {
                         string exceptionMessage = exception.ToString();
@@ -80,7 +82,6 @@ namespace Microsoft.Extensions.Logging.Console
                         }
                         writer.WriteEndObject();
                     }
-                    WriteScopeInformation(writer, scopeProvider);
                     writer.WriteEndObject();
                     writer.Flush();
                 }
